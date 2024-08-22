@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Histórico de Moneda</title>
+    <link rel="stylesheet" href="estilos.css" />
+    <link rel="icon" href="./imagenes/favicom.png" type="image/x-icon" />
+  </head>
+  <body>
+    <header>
+      <h1>Histórico de Moneda</h1>
+      <nav>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="historico.html">Histórico</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <section id="historico">
+        <h2>Seleccione la Moneda y el Rango de Fechas</h2>
+        <form id="seleccion-historico">
+          <label for="moneda">Moneda:</label>
+          <select id="moneda" name="moneda">
+            <option value="usd">DOLAR BLUE</option>
+            <option value="eur">DOLAR BNA</option>
+            <option value="usd">DOLAR CCL</option>
+            <option value="usd">DOLAR MER CONTADO</option>
+            <option value="usd">DOLAR TARJETA</option>
+            <option value="usd">EURO</option>
+            <option value="usd">REAL</option>
+            <option value="usd">PESOS CHILENOS</option>
+          </select>
+
+          <label for="fecha-inicio">Fecha de Inicio:</label>
+          <input type="date" id="fecha-inicio" name="fecha-inicio" />
+
+          <label for="fecha-fin">Fecha de Fin:</label>
+          <input type="date" id="fecha-fin" name="fecha-fin" />
+
+          <button type="submit">Mostrar Histórico</button>
+        </form>
+
+        <div id="resultado-historico">
+          <h3>Gráfico de Evolución</h3>
+          <div id="grafico"></div>
+
+          <h3>Tabla de Evolución</h3>
+          <table>
+            <thead>
+              <tr>
+                <th>Fecha</th>
+                <th>Cotización</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <h2>Integrantes:</h2>
+      <h4>
+        Delbono Caetano, Plano Facundo, Kannemann Elias, Cechetto Juan Cruz
+      </h4>
+      <h4>Carrera: Tecnicatura en Programaciòn</h4>
+      <h4>Materia: Programaciòn II</h4>
+    </footer>
+  </body>
+</html>
