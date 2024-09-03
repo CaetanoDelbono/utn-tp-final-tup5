@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Histórico de Moneda</title>
     <link rel="stylesheet" href="estilos.css" />
-    <link rel="icon" href="./imagenes/favicom.png" type="image/x-icon" />
+    <link rel="icon" href="./imagenes/logotipo.png" type="image/x-icon" />
   </head>
   <body>
     <header>
@@ -17,36 +17,30 @@
         </ul>
       </nav>
     </header>
-
     <main>
       <section id="historico">
         <h2>Seleccione la Moneda y el Rango de Fechas</h2>
         <form id="seleccion-historico">
           <label for="moneda">Moneda:</label>
           <select id="moneda" name="moneda">
-            <option value="usd">DOLAR BLUE</option>
-            <option value="eur">DOLAR BNA</option>
-            <option value="usd">DOLAR CCL</option>
-            <option value="usd">DOLAR MER CONTADO</option>
-            <option value="usd">DOLAR TARJETA</option>
-            <option value="usd">EURO</option>
-            <option value="usd">REAL</option>
-            <option value="usd">PESOS CHILENOS</option>
-          </select>
-
+            <option value="dolar_blue">DOLAR BLUE</option>
+            <option value="dolar_bna">DOLAR BNA</option>
+            <option value="dolar_ccl">DOLAR CCL</option>
+            <option value="dolar_merc_contado">DOLAR MER CONTADO</option>
+            <option value="dolar_tarjeta">DOLAR TARJETA</option>
+            <option value="euro">EURO</option>
+            <option value="real">REAL</option>
+            <option value="pesos_chilenos">PESOS CHILENOS</option>
+        </select>
           <label for="fecha-inicio">Fecha de Inicio:</label>
           <input type="date" id="fecha-inicio" name="fecha-inicio" />
-
           <label for="fecha-fin">Fecha de Fin:</label>
           <input type="date" id="fecha-fin" name="fecha-fin" />
-
           <button type="submit">Mostrar Histórico</button>
         </form>
-
         <div id="resultado-historico">
           <h3>Gráfico de Evolución</h3>
           <div id="grafico"></div>
-
           <h3>Tabla de Evolución</h3>
           <table>
             <thead>
@@ -60,7 +54,6 @@
         </div>
       </section>
     </main>
-
     <footer>
       <h2>Integrantes:</h2>
       <h4>
