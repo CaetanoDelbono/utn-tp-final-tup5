@@ -6,10 +6,8 @@ document.addEventListener('DOMContentLoaded', () => {
         .then(data => {
             console.log(data);
 
-            // Nos aseguramos de q halla data 
             if (data.length > 0) {
                 console.log(data[0].casa);
-                // Creamos el Div para que se complete con los datos 
                 const div = document.querySelector('.container');
                 let articulos = '';
 
@@ -18,9 +16,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 for (let i = 0; i < data.length; i++) {
                     const elemento = data[i];
 
+                const fechaActual = new Date();
+
+            
+                const fechaFormateada = fechaActual.toLocaleDateString();
+
+            
+                const horaFormateada = fechaActual.toLocaleTimeString();
+
                     articulos += `<article class="card">
                     <div class="card-header">
-                        <span>${elemento.casa}:</span>
+                        <span>${elemento.nombre.slice(0,15)}:</span>
                         <span class="variation down">- 3,07%</span>
                     </div>
                     <div class="card-body">
@@ -34,13 +40,13 @@ document.addEventListener('DOMContentLoaded', () => {
                         </div>
                     </div>
                     <div class="card-footer">
-                        <span>03/09/2024 - 13:51</span>
+                        <span>${fechaFormateada} - ${horaFormateada}</span>
                     </div>
                 </article> `;
 
 
                 }
-                div.innerHTML = articulos; // Asignamos los art acumulado al contenedor
+                div.innerHTML = articulos; 
             }
         })
         .catch(error => console.error('Error al obtener los datos:', error));
