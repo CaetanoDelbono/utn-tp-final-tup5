@@ -1,0 +1,127 @@
+#box{
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.container-login{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    background: #fff;
+    width: 410px;
+    padding: 30px;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+}
+
+.container-login .text{
+    font-size: 35px;
+    font-weight: 600;
+    text-align: center;
+}
+
+.container-login form{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.container-login form .data{
+    height: 45px;
+    width: 100%;
+    margin: 20px 0;
+
+}
+
+form .data label{
+    font-size: 18px;
+
+}
+
+form .data input{
+    height: 100%;
+    width: 100%;
+    padding-left:10px ;
+    font-size: 17px;
+    border: 1px solid silver;
+}
+
+form .data input:focus{
+    border-color: #4158d0 ;
+    border-bottom-width: 2px ;
+}
+
+form .forgot-pass{
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: start;
+}
+
+form .forgot-pass a{
+    color: #4158d0;
+    text-decoration: none;
+}
+
+form .forgot-pass a:hover{
+    text-decoration: underline;
+}
+
+form .btn{
+    margin: 30px 0;
+    height: 45ppx;
+    width: 100%;
+}
+
+form .btn  button{
+    height: 100%;
+    width: 100%;
+    background: linear-gradient(43deg,#4158d0 50%, #c85);
+    color: #fff;
+    font-size: 18px;
+    font-weight: 500;
+    border: none;
+    text-transform: uppercase;
+    cursor: pointer;
+    background-size: 200%;
+    transition: all 0.6s;
+}
+
+.btn button:hover{
+    background-position: center;
+}
+
+form .signup-link{
+    text-align: center;
+}
+
+form .signup-link a{
+    color: #4158d0;
+    text-decoration: none;
+}
+
+form .signup-link a:hover{
+    text-decoration: underline;
+}
+
+.container-login .close-btn{
+    align-self: flex-end;
+    cursor: pointer;
+}
+
+.container-login .close-btn:hover{
+    color: #4158d0;
+}
+
+.show-btn{
+    background: #fff;
+    padding: 10px 20px;
+    font-size: 20px;
+    font-weight: 500;
+    cursor: pointer;
+    color: #4158d0;
+    box-shadow: 0 0 8x rgba(0, 0, 0, 0.1);
+}

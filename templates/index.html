@@ -1,67 +1,41 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="/static/css/styles.css" />
-    <title>Rosario Divisas</title>
-    <script src="./app.js"></script>
-</head>
-<body>
-    <header class="header">
-    <div class="logo">
-        <img src="/static/imagenes/logo.png" alt="Logo de la Compañia" />
-    </div>
-    <h1 class="nombre-empresa">Rosario Divisas</h1>
-    <nav>
-        <ul class="nav-links">
-        <li><a href="index.html">Inicio</a></li>
-        <li><a href="historico.html">Histórico</a></li>
-        <li><a href="#">Contacto</a></li>
-        </ul>
-    </nav>
-    </header>
+{% extends "base.html" %}
+{% block title%}Index page {% endblock %}
+
+{% block content %}
+
     <main>
         <section class="cotizaciones">
             <div class="container">
-               
+
             </div>
         </section>
         <section class="noticias">
             <h2>Noticias</h2>
             <div class="news-container">
                 <article class="news-card">
-                    <img src="/static/imagenes/dolar-1.png" alt="Dólar imagen 1" />
+                    <img src="/static/img/dolar-1.png" alt="Dólar imagen 1" />
                     <span class="divisas">Canasta de divisas</span>
                     <h3>
-                    El dólar en el mundo cayó tras buen dato de empleo de EEUU y el
-                    yen se fortaleció como refugio
+                        El dólar en el mundo cayó tras buen dato de empleo de EEUU y el
+                        yen se fortaleció como refugio
                     </h3>
                 </article>
                 <article class="news-card">
-                    <img src="/static/imagenes/dolar-2.png" alt="Dólar imagen 2" />
+                    <img src="/static/img/dolar-2.png" alt="Dólar imagen 2" />
                     <span class="divisas">Aumentó oferta de privados</span>
                     <h3>
-                    El dólar CCL cerró debajo de $1.300 y el MEP anotó mayor caída en
-                    casi un mes
+                        El dólar CCL cerró debajo de $1.300 y el MEP anotó mayor caída en
+                        casi un mes
                     </h3>
                 </article>
                 <article class="news-card">
-                    <img src="/static/imagenes/euro.jpg" alt="Euro imagen 3" />
+                    <img src="/static/img/euro.jpg" alt="Euro imagen 3" />
                     <span class="divisas">Mercado cambiario</span>
                     <h3>
-                    El Euro volvió a subir y alcanzó un nuevo máximo en más de 20 días
+                        El Euro volvió a subir y alcanzó un nuevo máximo en más de 20 días
                     </h3>
                 </article>
             </div>
         </section>
     </main>
-    <footer>
-    <h3>Integrantes:</h3>
-    <h4>
-        Delbono Caetano, Plano Facundo, Kannemann Elias
-    </h4>
-    <h4>Carrera: Tecnicatura en Programación / Materia: Programación II</h4>
-    </footer>
-</body>
-</html>
+   {% endblock %}

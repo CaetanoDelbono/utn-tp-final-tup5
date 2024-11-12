@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title%}Historicos page {% endblock %}
+
+{% block content %} 
+  
+    <main>
+      <section id="historico" class="historico-container">
+        <h2 class="historico-titulo">Seleccione la Moneda y el Rango de Fechas</h2>
+        
+        <form id="seleccion-historico" class="historico-form">
+          <label for="moneda">Moneda:</label>
+          <select id="moneda" name="moneda" class="historico-select">
+            <option value="dolar_blue">DÓLAR BLUE</option>
+            <option value="dolar_bna">DÓLAR BNA</option>
+            <option value="dolar_mep">DÓLAR MEP</option>
+            <option value="dolar_ccl">DÓLAR CCL</option>
+            <option value="dolar_tarjeta">DÓLAR TARJETA</option>
+            <option value="dolar_turista">DÓLAR TURISTA</option>
+            <option value="euro">EURO</option>
+            <option value="real">REAL</option>
+            <option value="pesos_chilenos">PESOS CHILENOS</option>
+          </select>
+          
+          <label for="fecha-inicio">Fecha de Inicio:</label>
+          <input type="date" id="fecha-inicio" name="fecha-inicio" class="historico-fecha" />
+          
+          <label for="fecha-fin">Fecha de Fin:</label>
+          <input type="date" id="fecha-fin" name="fecha-fin" class="historico-fecha" />
+          
+          <button type="submit" class="historico-boton">Mostrar Histórico</button>
+        </form>
+      
+        <div id="resultado-historico" class="historico-resultado">
+          <h3 class="historico-subtitulo">Gráfico de Evolución</h3>
+          <div id="grafico" class="historico-grafico">
+            <canvas id="historicoChart"></canvas> <!-- Elemento Canvas para el gráfico -->
+          </div>
+          
+          <h3 class="historico-subtitulo">Tabla de Evolución</h3>
+          <table class="historico-tabla">
+            <thead>
+              <tr>
+                <th>Fecha</th>
+                <th>Cotización</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </section>
+      
+      
+    </main>
+    {% endblock %}
