@@ -1,4 +1,6 @@
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, redirect, url_for
+import smtplib
+from email.mime.text import MIMEText
 
 app = Flask(__name__, template_folder='templates')
 
@@ -8,7 +10,7 @@ def index():
     title = 'Rosario Divisas'
     return render_template('index.html', title=title)
 
-@app.route('/historico')
+@app.route('/web/mail')
 def history():
     title= 'Rosario Divisas'
     return render_template('historicos.html', title=title)
@@ -20,14 +22,32 @@ def login():
     elif request.method == 'POST':
         return 'You made a POST request'
     
-@app.route('/hello', methods=['GET', 'POST'])
-def hello():
-    if request.method == 'GET':
-        return 'You made a GET request'
-    elif request.method == 'POST':
-        return 'You made a POST request'
-    else: 
-        return 'You will never see this message '
+@app.route('/web/email', methods=['GET', 'POST'])
+def email():
+    if request.method == "POST":
+        
+        asunto = request.form["asunto"]
+        email = request.form["email"]
+        mensaje = request.form["mensaje"]
+
+  
+        servidor = smtplib.SMTP("smtp.gmail.com", 587)
+        servidor.starttls()
+        servidor.login("elias.gk33@gmail.com", "pass")
+
+
+        msg = MIMEText(f"Asunto: {asunto}\nMensaje: {mensaje}")
+
+        msg["From"] = "elias.gk33@gmail.com"
+        msg["To"] = email
+        msg["subject"] = asunto 
+        servidor.sendmail("elias.gk33@gmail.com", email, msg.as_string())
+        servidor.quit()
+        return redirect(url_for('history'))
+
+    else:
+        return render_template("email.html")
+
    
 
 @app.route('/greet/<name>')

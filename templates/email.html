@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title%}Index page {% endblock %}
+
+{% block content %}
+<div class="container-form">
+<form action="/web/email" method="post">
+    <p>Enviar correo </p>
+    <label for="asunto">Asunto:</label>
+    <input type="text" name="asunto" id="">
+    <label for="email">Email:</label>
+    <input type="text" name="email">
+    <label for="mensaje">Mensaje:</label>
+    <textarea name="mensaje" cols="30" rows="10"></textarea>
+    <input type="submit" value="Enviar">
+</form>
+</div>
+
+
+{% endblock %}
