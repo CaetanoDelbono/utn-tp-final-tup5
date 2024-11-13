@@ -17,30 +17,28 @@
             <option value="dolar_tarjeta">DÓLAR TARJETA</option>
           </select>
           
-          <label for="fecha-inicio">Fecha de Inicio:</label>
-          <input type="date" id="fecha-inicio" name="fecha-inicio" class="historico-fecha" />
-          
-          <label for="fecha-fin">Fecha de Fin:</label>
-          <input type="date" id="fecha-fin" name="fecha-fin" class="historico-fecha" />
+          <label for="fecha">Fecha:</label>
+          <input type="date" id="fecha" name="fecha" class="historico-fecha" />
           
           <button type="submit" class="historico-boton">Mostrar Histórico</button>
         </form>
       
         <div id="resultado-historico" class="historico-resultado">
-          <h3 class="historico-subtitulo">Gráfico de Evolución</h3>
-          <div id="grafico" class="historico-grafico">
-            <canvas id="historicoChart"></canvas> <!-- Elemento Canvas para el gráfico -->
-          </div>
-          
           <h3 class="historico-subtitulo">Tabla de Evolución</h3>
           <table class="historico-tabla">
             <thead>
               <tr>
+                <th>Casa</th>
+                <th>Compra</th>
+                <th>Venta</th>
                 <th>Fecha</th>
-                <th>Cotización</th>
               </tr>
             </thead>
-            <tbody></tbody>
+            <tbody id="tabla-cotizaciones">
+              
+            </tbody>
+          </div>
+
           </table>
         </div>
       </section>
