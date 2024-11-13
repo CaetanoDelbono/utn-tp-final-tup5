@@ -41,15 +41,3 @@ document.addEventListener('DOMContentLoaded', () => {
         })
         .catch(error => console.error('Error al obtener los datos:', error));
 });
-
-const currentPage = window.location.pathname.split("/").pop();
-
-// Obtiene todos los enlaces
-const links = document.querySelectorAll(".nav-links a");
-
-// Recorre todos los enlaces y agrega la clase "active" al que corresponde
-links.forEach(link => {
-if (link.getAttribute("href") === currentPage) {
-    link.classList.add("active");
-}
-});
