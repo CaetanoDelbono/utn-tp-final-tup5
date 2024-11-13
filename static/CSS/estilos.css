@@ -360,3 +360,10 @@ footer {
     font-size: 24px;
   }
 }
+
+
+nav ul li a.active {
+  font-weight: bold;
+  color: rgb(181, 219, 10);
+  border-bottom: 2px solid rgb(234, 236, 76);
+}

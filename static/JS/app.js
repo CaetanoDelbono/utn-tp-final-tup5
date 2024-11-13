@@ -52,4 +52,14 @@ links.forEach(link => {
 if (link.getAttribute("href") === currentPage) {
     link.classList.add("active");
 }
+
+const currentLocation = location.pathname;
+const menuItems = document.querySelectorAll('nav ul li a');
+
+menuItems.forEach(item => {
+  if (item.getAttribute('href') === currentLocation) {
+    item.classList.add('active');
+  }
+});
+
 });
