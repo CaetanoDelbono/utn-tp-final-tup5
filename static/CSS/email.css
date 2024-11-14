@@ -73,6 +73,13 @@ input[type="submit"] {
     border-radius: 8px; 
 }
 
+.button-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 15px;
+}
+
 #boton:hover {
     background-color: #0c0e8d; 
 }
+

@@ -57,9 +57,10 @@ const currentLocation = location.pathname;
 const menuItems = document.querySelectorAll('nav ul li a');
 
 menuItems.forEach(item => {
-  if (item.getAttribute('href') === currentLocation) {
+if (item.getAttribute('href') === currentLocation) {
     item.classList.add('active');
-  }
+}
+    });
 });
 
-});
+

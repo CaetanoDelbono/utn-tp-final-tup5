@@ -305,6 +305,29 @@ footer {
   background-color: #f1f1f1;
 }
 
+.contenedor-boton {
+  display: flex;
+  justify-content: center;  /* Centra el contenido horizontalmente */
+  width: 100%;              /* Asegura que ocupe el ancho completo de la pantalla */
+  margin-top: 5px;         /* Ajusta el margen superior si es necesario */
+}
+
+#botonazo {
+  background-color: #313030bd; 
+  color: white; 
+  border: none; 
+  padding: 15px 20px; 
+  text-align: center;
+  font-size: 16px; 
+  margin: 4px 40px;
+  cursor: pointer;
+  border-radius: 15px; 
+}
+
+#botonazo:hover {
+  background-color: #0c0e8d; 
+}
+
 @media (max-width: 1200px) {
   .container {
     grid-template-columns: repeat(2, 1fr);

@@ -2,10 +2,17 @@
 
 {% block content %}
     <main>
+        <div class="contenedor-boton">
+            <form id="botonsin" action="/enviar_cotizaciones" method="POST">
+                <button id="botonazo" type="submit">Enviar Cotización por Email</button>
+            </form>
+        </div>
+
         <section class="cotizaciones">
             <div class="container">
             </div>
         </section>
+
         <section class="noticias">
             <h2>Noticias</h2>
             <div class="news-container">

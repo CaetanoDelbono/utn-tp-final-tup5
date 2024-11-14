@@ -2,19 +2,29 @@
 
 {% block content %}
 <div class="container-form">
-<form action="/web/email" method="post">
+<form id="formContacto" action="/web/email" method="post">
         <label  for="nombre">Nombre:</label>
         <input type="text" id="nombre" name="nombre" required>
-
+        
         <label  for="email">Email:</label>
         <input type="email" id="email" name="email" required>
-
+        
         <label  for="mensaje">Mensaje:</label>
         <textarea id="mensaje" name="mensaje" required></textarea><br>
-
-        <button  id="boton" type="submit">Enviar</button>
+        
+        <div class="button-container">
+            <button id="boton" type="submit">Enviar</button>
+        </div>
 </form>
 </div>
-
+    <!-- Mostrar mensajes flash -->
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <script>
+                // Mostrar alerta si hay mensajes
+                alert("{{ messages[0] }}");
+            </script>
+        {% endif %}
+    {% endwith %}
 
 {% endblock %}
