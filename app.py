@@ -9,12 +9,13 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
 
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template("404.html")
 
 @app.route('/')
 def index():
     return render_template('index.html')
-
-
 
 
 @app.route('/api/cotizacion')
