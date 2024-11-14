@@ -1,46 +1,62 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <main>
-      <section id="historico" class="historico-container">
-        <h2 class="historico-titulo">Seleccione la Moneda y el Rango de Fechas</h2>
-        
-        <form id="seleccion-historico" class="historico-form">
-          <label for="moneda">Moneda:</label>
-          <select id="moneda" name="moneda" class="historico-select">
-            <option value="dolar_oficial">DÓLAR OFICIAL</option>
-            <option value="dolar_blue">DÓLAR BLUE</option>
-            <option value="dolar_bolsa">DÓLAR BOLSA</option>
-            <option value="dolar_ccl">DÓLAR CCL</option>
-            <option value="dolar_mayorista">DÓLAR MAYORISTA</option>
-            <option value="dolar_cripto">DÓLAR CRIPTO</option>
-            <option value="dolar_tarjeta">DÓLAR TARJETA</option>
-          </select>
-          
-          <label for="fecha">Fecha:</label>
-          <input type="date" id="fecha" name="fecha" class="historico-fecha" />
-          
-          <button type="submit" class="historico-boton">Mostrar Histórico</button>
-        </form>
-      
-        <div id="resultado-historico" class="historico-resultado">
-          <h3 class="historico-subtitulo">Tabla de Evolución</h3>
-          <table class="historico-tabla">
-            <thead>
-              <tr>
-                <th>Casa</th>
-                <th>Compra</th>
-                <th>Venta</th>
-                <th>Fecha</th>
-              </tr>
-            </thead>
-            <tbody id="tabla-cotizaciones">
-              
-            </tbody>
-          </div>
+<main>
+  <section id="historico" class="historico-container">
+    <h2 class="historico-titulo">Seleccione la Moneda y el Rango de Fechas</h2>
 
-          </table>
-        </div>
-      </section>
+    <form id="seleccion-historico" class="historico-form" action="/historico" method="GET">
+      <label for="moneda">Moneda:</label>
+      <select id="moneda" name="moneda" class="historico-select">
+        <option value="oficial">DÓLAR OFICIAL</option>
+        <option value="blue">DÓLAR BLUE</option>
+        <option value="bolsa">DÓLAR BOLSA</option>
+        <option value="ccl">DÓLAR CCL</option>
+        <option value="mayorista">DÓLAR MAYORISTA</option>
+        <option value="cripto">DÓLAR CRIPTO</option>
+        <option value="tarjeta">DÓLAR TARJETA</option>
+      </select>
+     <!--  <label for="fecha">Fecha:</label>
+      <input type="date" id="fecha" name="fecha" class="historico-fecha" /> -->
       
-      {% endblock %}
+
+      <button type="submit" class="historico-boton">Mostrar Histórico</button>
+    </form>
+
+    <div id="resultado-historico" class="historico-resultado">
+      <h3 class="historico-subtitulo">Tabla de Evolución</h3>
+      <table class="historico-tabla">
+        {% if error %}
+        <p style="color: red;">{{ error }}</p>
+        {% elif data %}
+        <thead>
+          <tr>
+            <th>Casa</th>
+            <th>Compra</th>
+            <th>Venta</th>
+            <th>Fecha</th>
+          </tr>
+        </thead>
+        <tbody id="tabla-cotizaciones">
+          {% for item in data %}
+          <tr>
+            <td>{{ item.casa }}</td>
+            <td>{{ item.compra }}</td>
+            <td>{{ item.venta }}</td>
+            <td>{{ item.fecha }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+
+        {% else %}
+        <p>No hay datos históricos disponibles para esta moneda y fecha.</p>
+        {% endif %}
+    </div>
+
+    </table>
+    </div>
+ 
+
+    
+ </section>
+  {% endblock %}
