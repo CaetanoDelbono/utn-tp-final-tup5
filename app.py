@@ -70,7 +70,7 @@ def enviar_cotizaciones():
 
         # Verificar si hay datos en la sesión
         if not email_receiver:
-            flash("Por favor, complete todos los campos del formulario.")
+            flash("Por favor, complete todos los campos del formulario.", category='error')
             return redirect(url_for('show_form'))
 
         # Obtener las cotizaciones actuales
@@ -99,6 +99,9 @@ def enviar_cotizaciones():
         em["to"] = email_receiver
         em["subject"] = subject
         
+        # Configuramos el contenido como texto plano
+        em.set_content(body, subtype='plain', charset='utf-8')
+        
         # Enviar el correo
         context = ssl.create_default_context()
         with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as smtp:
@@ -108,6 +111,7 @@ def enviar_cotizaciones():
         # Limpiar la sesión después de enviar el correo
         session.clear()
         
+        flash("El correo se envió correctamente.", category='success')
         return redirect(url_for('index'))
     except Exception as e:
         return jsonify({'error': f'Ocurrió un error inesperado: {str(e)}'}), 500

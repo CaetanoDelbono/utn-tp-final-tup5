@@ -17,14 +17,14 @@
         </div>
 </form>
 </div>
-    <!-- Mostrar mensajes flash -->
-    {% with messages = get_flashed_messages() %}
-        {% if messages %}
-            <script>
-                // Mostrar alerta si hay mensajes
-                alert("{{ messages[0] }}");
-            </script>
-        {% endif %}
-    {% endwith %}
+
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+    <script>
+        // Mostrar alerta si hay mensajes flash
+        alert("{{ messages[0] }}");
+    </script>
+{% endif %}
+{% endwith %}
 
 {% endblock %}
