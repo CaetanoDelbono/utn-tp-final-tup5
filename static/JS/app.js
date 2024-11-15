@@ -1,46 +1,92 @@
 document.addEventListener('DOMContentLoaded', () => {
     fetch("http://127.0.0.1:5000/api/cotizacion")
-        .then(response => response.json())
-        .then(data => {
-            console.log(data); // Verifica que los datos se reciban correctamente
-
-            if (data.length > 0) {
-                const div = document.querySelector('.container');
-                let articulos = '';
-                for (let i = 0; i < data.length; i++) {
-                    const elemento = data[i];
-                    //fecha y hora actual
-                    const fechaActual = new Date();
-                    const fechaFormateada = fechaActual.toLocaleDateString();
-                    const horaFormateada = fechaActual.toLocaleTimeString();
-                    //HTML para cada artículo
-                    articulos += `<article class="card">
-                        <div class="card-header">
-                            <span>${elemento.nombre.slice(0,15)}:</span>
-                            <span class="variation down">- 3,07%</span>
-                        </div>
-                        <div class="card-body">
-                            <div class="precio">
-                                <span>COMPRA</span>
-                                <strong>${elemento.compra}</strong>
-                            </div>
-                            <div class="precio">
-                                <span>VENTA</span>
-                                <strong>${elemento.venta}</strong>
-                            </div>
-                        </div>
-                        <div class="card-footer">
-                            <span>${fechaFormateada} - ${horaFormateada}</span>
-                        </div>
-                    </article>`;
-                }
-
-                // Insertamos las tarjetas generadas en el contenedor
-                div.innerHTML = articulos;
-            }
-        })
-        .catch(error => console.error('Error al obtener los datos:', error));
+    .then(response => response.json())
+    .then(results => {
+        results.forEach(moneda => {
+        const newMoneda = document.createElement('article');
+        newMoneda.classList.add('card');
+        
+        // Obtener la fecha y hora actual
+        const fechaActual = new Date();
+        const fechaFormateada = fechaActual.toLocaleDateString(); // Fecha actual
+        const horaFormateada = fechaActual.toLocaleTimeString(); // Hora actual
+        
+        newMoneda.innerHTML = `
+        <div class="card-header"> 
+            <p class="nombre_casa">${moneda.tipo.moneda}</p>
+            <p class="nombre_casa">${moneda.tipo.nombre}</p>
+        </div>
+        <div class="card-body">
+            <div class="precio">
+                <span>Compra</span>
+                <strong>$${moneda.cotizacion.compra.toLocaleString("es-ES")}</strong>
+            </div>
+            <div class="precio">
+                <span>Venta</span>
+                <strong>$${moneda.cotizacion.venta.toLocaleString("es-ES")}</strong>
+            </div>
+        </div>
+        <div class="card-footer"> 
+            <p>Fecha actualización: ${fechaFormateada} ${horaFormateada}</p>
+        </div>
+    `;
+        const boxTarjetas = document.querySelector('.cotizaciones .container');
+        boxTarjetas.appendChild(newMoneda);
+        });
+    })
+    .catch(error => {
+        console.error('Error al obtener los datos:', error);
+    });
 });
+
+fetch("http://127.0.0.1:5000/api/cotizaciones")
+    .then(response => response.json())
+    .then(results => {
+        results.forEach(moneda => {
+        const newMoneda = document.createElement('article');
+        newMoneda.classList.add('card');
+        
+        const fechaActual = new Date();
+        const fechaFormateada = fechaActual.toLocaleDateString();
+        const horaFormateada = fechaActual.toLocaleTimeString(); 
+        
+        newMoneda.innerHTML = `
+        <div class="card-header"> 
+            <p class="nombre_casa">${moneda.tipo.moneda}</p>
+            <p class="nombre_casa">${moneda.tipo.nombre}</p>
+        </div>
+        <div class="card-body">
+            <div class="precio">
+                <span>Compra</span>
+                <strong>$${moneda.cotizacion.compra.toLocaleString("es-ES")}</strong>
+            </div>
+            <div class="precio">
+                <span>Venta</span>
+                <strong>$${moneda.cotizacion.venta.toLocaleString("es-ES")}</strong>
+            </div>
+        </div>
+        <div class="card-footer"> 
+            <p>Fecha actualización: ${fechaFormateada} ${horaFormateada}</p>
+        </div>
+    `;
+        const boxTarjetas = document.querySelector('.cotizaciones .container');
+        boxTarjetas.appendChild(newMoneda);
+        });
+    })
+    .catch(error => {
+        console.error('Error al obtener los datos:', error);
+    });
+
+
+  // Función para verificar si la cotización está actualizada
+function verificarFechaActualizada(fecha) {
+    const fechaActual = new Date();
+    const fechaCotizacion = new Date(fecha);
+    const diferenciaEnDias = Math.floor((fechaActual - fechaCotizacion) / (1000 * 3600 * 24));
+    
+    return diferenciaEnDias <= 1; // Si la cotización es de hace 1 día o menos, la consideramos actualizada
+}
+
 
 const currentPage = window.location.pathname.split("/").pop();
 

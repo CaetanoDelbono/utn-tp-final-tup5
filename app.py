@@ -1,6 +1,8 @@
 from flask import Flask, jsonify, render_template , request, redirect, url_for, session, flash
 import smtplib
 import ssl
+from clases import  Tipo 
+from clases import  Cotizacion 
 from email.message import EmailMessage
 import os
 import requests
@@ -14,14 +16,55 @@ CORS(app)
 def index():
     return render_template('index.html')
 
-@app.route('/api/cotizacion')
-def obtener_cotizacion():
-    response = requests.get('https://dolarapi.com/v1/dolares')
+@app.route('/web/email', methods=['GET'])
+def show_form():
+    return render_template('email.html') 
 
-    if response.status_code == 200:
-        return jsonify(response.json()) 
-    else:
-        return jsonify({'error': 'No se pudieron obtener los datos'}), 500
+@app.route('/api/cotizaciones')
+def cotizaciones():
+    cotizacionArray = []
+    try:
+
+        response = requests.get("https://dolarapi.com/v1/cotizaciones")
+        if response.status_code == 200:
+            datos = response.json()
+            
+            for moneda in datos:
+                cotizacion = Cotizacion(moneda["compra"], moneda["venta"], moneda["fechaActualizacion"])
+                tipomoneda = Tipo(moneda["nombre"] ,moneda["moneda"],moneda["casa"])
+                cotizacion_data = {
+                    "cotizacion": cotizacion.to_dict(),
+                    "tipo": tipomoneda.to_dict()
+                    }
+                cotizacionArray.append(cotizacion_data)
+
+            return jsonify(cotizacionArray)
+        else:
+            return jsonify({"error": "No se pudo obtener los datos"}), response.status_code
+    except requests.exceptions.RequestException as e:
+            return jsonify({"error": "Error de conexión"}), 500
+
+@app.route('/api/cotizacion')
+def dolares():
+    dolaresArray = []
+    try:
+        response = response = requests.get("https://dolarapi.com/v1/dolares")
+        if response.status_code == 200:
+            datos = response.json()
+            
+            for moneda in datos:
+                cotizacion = Cotizacion(moneda["compra"], moneda["venta"], moneda["fechaActualizacion"])
+                tipomoneda = Tipo(moneda["nombre"] ,moneda["moneda"],moneda["casa"])
+                cotizacion_data = {
+                    "cotizacion": cotizacion.to_dict(),
+                    "tipo": tipomoneda.to_dict()
+                    }
+                dolaresArray.append(cotizacion_data)
+            return jsonify(dolaresArray)
+        else:
+            return jsonify({"error": "No se pudo obtener los datos"}), response.status_code
+    except requests.exceptions.RequestException as e:
+            return jsonify({"error": "Error de conexión"}), 500
 
 @app.route('/historico', methods=['GET'])
 def obtener_historico():
@@ -34,7 +77,6 @@ def obtener_historico():
 
         if response.status_code == 200:
             datos_historicos = response.json()
-
             limite = 20
             datos_historicos_limitados = datos_historicos[-limite:]
             return render_template('historico.html', data=datos_historicos_limitados, moneda=moneda)
@@ -45,9 +87,6 @@ def obtener_historico():
         return render_template('historico.html', data=None, moneda=moneda, error=f"Error al conectar con la API: {str(e)}")
 
 
-@app.route('/web/email', methods=['GET'])
-def show_form():
-    return render_template('email.html') 
 
 @app.route('/web/email', methods=['POST'])
 def save_email():
@@ -92,14 +131,13 @@ def enviar_cotizaciones():
         password = "gmhw qgkk nzdf lmda"
         subject = "Cotizaciones del dólar"
         body = f"Estimado {nombre}, se le envía la cotización del dólar:\n\n{dolar_info}"
-
         #armamos cuerpo del correo
         em = EmailMessage()
         em["from"] = email_sender
         em["to"] = email_receiver
         em["subject"] = subject
         
-        # Configuramos el contenido como texto plano
+        #configuramos el contenido como texto plano
         em.set_content(body, subtype='plain', charset='utf-8')
         
         # Enviar el correo
@@ -107,8 +145,7 @@ def enviar_cotizaciones():
         with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as smtp:
             smtp.login(email_sender, password)
             smtp.sendmail(email_sender, email_receiver, em.as_string())
-
-        # Limpiar la sesión después de enviar el correo
+        #limpiamos la sesión después de enviar el correo
         session.clear()
         
         flash("El correo se envió correctamente.", category='success')

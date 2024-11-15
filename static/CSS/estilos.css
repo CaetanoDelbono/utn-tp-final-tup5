@@ -126,20 +126,19 @@ footer {
   font-weight: bold;
 }
 
-.variation {
-  font-size: 14px;
+.fecha-actualizacion {
+  font-size: 14px; /* Cambia el tamaño de la fuente */
+  color: #666; /* Un color gris claro */
+  font-style: italic; /* Estilo en cursiva */
+  margin-top: 10px; /* Espacio superior */
 }
 
-.variation.up {
-  color: green;
+.fecha-actualizacion .actualizado {
+  color: green; /* Color verde para mostrar que está actualizado */
 }
 
-.variation.down {
-  color: red;
-}
-
-.variation.neutral {
-  color: #555;
+.fecha-actualizacion .desactualizado {
+  color: red; /* Color rojo para mostrar que está desactualizado */
 }
 
 .card-body {
