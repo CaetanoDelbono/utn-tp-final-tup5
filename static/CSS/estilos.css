@@ -126,21 +126,6 @@ footer {
   font-weight: bold;
 }
 
-.fecha-actualizacion {
-  font-size: 14px; /* Cambia el tamaño de la fuente */
-  color: #666; /* Un color gris claro */
-  font-style: italic; /* Estilo en cursiva */
-  margin-top: 10px; /* Espacio superior */
-}
-
-.fecha-actualizacion .actualizado {
-  color: green; /* Color verde para mostrar que está actualizado */
-}
-
-.fecha-actualizacion .desactualizado {
-  color: red; /* Color rojo para mostrar que está desactualizado */
-}
-
 .card-body {
   display: flex;
   justify-content: space-between;
@@ -303,28 +288,54 @@ footer {
 .historico-tabla tbody tr:hover {
   background-color: #f1f1f1;
 }
-
-.contenedor-boton {
+form {
+  background-color: #fff;
+  border-radius: 18px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  max-width: 500px;
+  margin: 20px auto;
   display: flex;
-  justify-content: center;  /* Centra el contenido horizontalmente */
-  width: 100%;              /* Asegura que ocupe el ancho completo de la pantalla */
-  margin-top: 5px;         /* Ajusta el margen superior si es necesario */
+  flex-direction: column;
+  gap: 15px;
 }
 
-#botonazo {
-  background-color: #313030bd; 
-  color: white; 
-  border: none; 
-  padding: 15px 20px; 
-  text-align: center;
-  font-size: 16px; 
-  margin: 4px 40px;
+form label {
+  font-weight: bold;
+  color: #313030bd;
+  font-size: 16px;
+}
+
+form input[type="email"] {
+  padding: 12px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  outline: none;
+  transition: border 0.3s ease;
+}
+
+form input[type="email"]:focus {
+  border-color: #313030bd;
+}
+
+form button {
+  background-color: #313030bd;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 10px;
+  font-size: 18px;
   cursor: pointer;
-  border-radius: 15px; 
+  transition: background-color 0.3s ease;
 }
 
-#botonazo:hover {
-  background-color: #0c0e8d; 
+form button:hover {
+  background-color: #0c0e8d;
+}
+
+form button:active {
+  transform: scale(0.98);
 }
 
 @media (max-width: 1200px) {

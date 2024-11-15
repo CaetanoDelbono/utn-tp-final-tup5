@@ -2,16 +2,20 @@
 
 {% block content %}
     <main>
-        <div class="contenedor-boton">
-            <form id="botonsin" action="/enviar_cotizaciones" method="POST">
-                <button id="botonazo" type="submit">Enviar Cotización por Email</button>
-            </form>
-        </div>
-
         <section class="cotizaciones">
             <div class="container">
+                
             </div>
         </section>
+            <!-- Formulario para enviar el correo -->
+            <form action="/procesar" method="POST">
+                <label for="nombre">Nombre:</label>
+                <input type="text" id="nombre" name="nombre" required>
+                <label for="correo">Recibir cotizaciones del día:</label>
+                <input type="email" id="correo" name="correo" placeholder="Tu correo electrónico" required>
+            
+                <button type="submit">Enviar cotización</button>
+            </form>
 
         <section class="noticias">
             <h2>Noticias</h2>

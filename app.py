@@ -1,15 +1,11 @@
-from flask import Flask, jsonify, render_template , request, redirect, url_for, session, flash
-import smtplib
-import ssl
+from flask import Flask, jsonify, render_template , request, redirect, url_for, json
 from clases import  Tipo 
 from clases import  Cotizacion 
 from email.message import EmailMessage
-import os
 import requests
 from flask_cors import CORS
 
 app = Flask(__name__)
-app.secret_key = "b9d7f2e4a7b8c1f2e5d8f9a2b4c6d8e1"
 CORS(app)
 
 @app.route('/')
@@ -20,6 +16,7 @@ def index():
 def show_form():
     return render_template('email.html') 
 
+#Traemos cotizaciones generales
 @app.route('/api/cotizaciones')
 def cotizaciones():
     cotizacionArray = []
@@ -44,6 +41,7 @@ def cotizaciones():
     except requests.exceptions.RequestException as e:
             return jsonify({"error": "Error de conexión"}), 500
 
+#Traemos cotizaciones del dolar
 @app.route('/api/cotizacion')
 def dolares():
     dolaresArray = []
@@ -66,6 +64,7 @@ def dolares():
     except requests.exceptions.RequestException as e:
             return jsonify({"error": "Error de conexión"}), 500
 
+
 @app.route('/historico', methods=['GET'])
 def obtener_historico():
     moneda = request.args.get('moneda')
@@ -87,71 +86,96 @@ def obtener_historico():
         return render_template('historico.html', data=None, moneda=moneda, error=f"Error al conectar con la API: {str(e)}")
 
 
-
-@app.route('/web/email', methods=['POST'])
-def save_email():
+def generar_cuerpo_mail():
+    """Genera el contenido del cuerpo del correo con cotizaciones del dólar y otras monedas."""
     try:
-        session['nombre'] = request.form.get("nombre", "")
-        session['email'] = request.form.get("email", "")
-        
-        
-        return redirect(url_for('index'))  # Redirigir de nuevo al índice
-    except Exception as e:
-        return jsonify({'error': f'Ocurrió un error: {str(e)}'}), 500
-    
+        # Realizamos las dos solicitudes a la API
+        response_cotizaciones = requests.get("https://dolarapi.com/v1/cotizaciones")
+        response_dolares = requests.get("https://dolarapi.com/v1/dolares")
 
-@app.route('/enviar_cotizaciones', methods=['POST'])
-def enviar_cotizaciones():
-    try:
-        # Obtener el nombre y el email de la sesión
-        nombre = session.get('nombre')
-        email_receiver = session.get('email')
+        # Comprobamos el estado de las respuestas
+        if response_cotizaciones.status_code == 200 and response_dolares.status_code == 200:
+            cotizaciones = response_cotizaciones.json()
+            dolares = response_dolares.json()
 
-        # Verificar si hay datos en la sesión
-        if not email_receiver:
-            flash("Por favor, complete todos los campos del formulario.", category='error')
-            return redirect(url_for('show_form'))
+            # Generamos el contenido del correo
+            email_body = "COTIZACIONES GENERALES\n\n"
+            for moneda in cotizaciones:
+                email_body += (
+                    f"Nombre: {moneda['nombre']}\n"
+                    f"Moneda: {moneda['moneda']}\n"
+                    f"Compra: {moneda['compra']}\n"
+                    f"Venta: {moneda['venta']}\n"
+                    f"Casa: {moneda['casa']}\n"
+                    f"Fecha de Actualización: {moneda['fechaActualizacion']}\n"
+                    + "-" * 30 + "\n"
+                )
 
-        # Obtener las cotizaciones actuales
-        url = "https://dolarapi.com/v1/dolares"
-        response = requests.get(url)
+            email_body += "\nCOTIZACIONES DEL DÓLAR\n\n"
+            for moneda in dolares:
+                email_body += (
+                    f"Nombre: {moneda['nombre']}\n"
+                    f"Moneda: {moneda['moneda']}\n"
+                    f"Compra: {moneda['compra']}\n"
+                    f"Venta: {moneda['venta']}\n"
+                    f"Casa: {moneda['casa']}\n"
+                    f"Fecha de Actualización: {moneda['fechaActualizacion']}\n"
+                    + "-" * 30 + "\n"
+                )
 
-        if response.status_code == 200:
-            data = response.json()
-            dolar_info = "Cotización del dólar:\n\n"
-            for item in data:
-                casa = item.get('nombre', 'Sin nombre de casa')
-                compra = item.get('compra', 'No disponible')
-                dolar_info += f"{casa}: ${compra}\n"
+            return email_body
         else:
-            dolar_info = "No se pudo obtener la información del dólar."
+            return "No se pudieron obtener las cotizaciones correctamente."
+    except requests.exceptions.RequestException as e:
+        return f"Error al obtener las cotizaciones: {str(e)}"
 
-        #configuracion del correo 
-        email_sender = "cae4569139@gmail.com"
-        password = "gmhw qgkk nzdf lmda"
-        subject = "Cotizaciones del dólar"
-        body = f"Estimado {nombre}, se le envía la cotización del dólar:\n\n{dolar_info}"
-        #armamos cuerpo del correo
-        em = EmailMessage()
-        em["from"] = email_sender
-        em["to"] = email_receiver
-        em["subject"] = subject
-        
-        #configuramos el contenido como texto plano
-        em.set_content(body, subtype='plain', charset='utf-8')
-        
-        # Enviar el correo
-        context = ssl.create_default_context()
-        with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as smtp:
-            smtp.login(email_sender, password)
-            smtp.sendmail(email_sender, email_receiver, em.as_string())
-        #limpiamos la sesión después de enviar el correo
-        session.clear()
-        
-        flash("El correo se envió correctamente.", category='success')
-        return redirect(url_for('index'))
-    except Exception as e:
-        return jsonify({'error': f'Ocurrió un error inesperado: {str(e)}'}), 500
+
+@app.route('/procesar', methods=['POST'])
+def procesar():
+    nombre = request.form.get('nombre')
+    correo = request.form.get('correo')
+
+    if nombre and correo:
+        print(f"Nombre: {nombre}")
+        print(f"Correo: {correo}")
+
+        # Generar el contenido del correo
+        mail = generar_cuerpo_mail()
+
+        # Estructura de datos para la API de envío de correos
+        data = {
+            'service_id': 'RosarioDivisas',
+            'template_id': 'CotizacionMonedas',
+            'user_id': 'J3P1UbAo9vpiYCfGt',
+            'accessToken': 'YrL1rQfoDbiTvFt1bXW_K',
+            'template_params': {
+                'to_email': correo,
+                'from_name': 'RosarioDivisas',
+                'user_name': nombre,
+                'message': mail
+            }
+        }
+        headers = {
+            'Content-Type': 'application/json',
+            'User-Agent': 'Mozilla/5.0',
+        }
+
+        try:
+            response = requests.post(
+                'https://api.emailjs.com/api/v1.0/email/send',
+                data=json.dumps(data),
+                headers=headers
+            )
+            response.raise_for_status()
+            print('La cotización fue enviada correctamente!')
+        except requests.exceptions.RequestException as error:
+            print(f'Oops... {error}')
+            if error.response is not None:
+                print(error.response.text)
+
+        return f'Mensaje enviado correctamente a {correo}', 200
+    else:
+        return jsonify({'error': "Amigue, completá bien los datos"}), 405
 
 
 if __name__ == '__main__':
