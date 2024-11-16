@@ -19,6 +19,7 @@ document.getElementById('seleccion-historico').addEventListener('submit', async 
             document.getElementById('resultado-historico').innerHTML = `<p style="color: red;">${data.error}</p>`;
         } else {
             renderizarTabla(data);
+            renderizarGrafico(data);
         }
     } catch (error) {
         console.error("Error al obtener los datos:", error);
@@ -44,6 +45,61 @@ function renderizarTabla(data) {
     } else {
         tbody.innerHTML = '<tr><td colspan="4">No hay datos disponibles para este rango de fechas.</td></tr>';
     }
+}
+
+// Función para dibujar el gráfico con los datos
+function renderizarGrafico(data) {
+    const fechas = data.map(item => item.fecha); 
+    const valoresCompra = data.map(item => parseFloat(item.compra)); 
+    const valoresVenta = data.map(item => parseFloat(item.venta));
+
+    const ctx = document.getElementById('graficoDolar').getContext('2d'); 
+    
+    if (window.myChart) {
+        window.myChart.destroy();
+    }
+
+    
+    window.myChart = new Chart(ctx, {
+        type: 'line', 
+        data: {
+            labels: fechas, 
+            datasets: [
+                {
+                    label: 'Compra',
+                    data: valoresCompra, 
+                    borderColor: 'green', 
+                    fill: false, 
+                    tension: 0.1 
+                },
+                {
+                    label: 'Venta',
+                    data: valoresVenta, 
+                    borderColor: 'red', 
+                    fill: false, 
+                    tension: 0.1 
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Fecha' 
+                    }
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: 'Precio (USD)' 
+                    },
+                    beginAtZero: false
+                }
+            }
+        }
+    });
 }
 
 document.addEventListener('DOMContentLoaded', function() {
