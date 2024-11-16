@@ -27,58 +27,46 @@
 <main>
   <section id="historico" class="historico-container">
     <h2 class="historico-titulo">Seleccione la Moneda y se mostraran los ultimos 20 dias</h2>
-
-    <form id="seleccion-historico" class="historico-form" action="/historico" method="GET">
-      <label for="moneda">Moneda:</label>
-      <select id="moneda" name="moneda" class="historico-select">
-        <option value="oficial">DÓLAR OFICIAL</option>
-        <option value="blue">DÓLAR BLUE</option>
-        <option value="bolsa">DÓLAR BOLSA</option>
-        <option value="ccl">DÓLAR CCL</option>
-        <option value="mayorista">DÓLAR MAYORISTA</option>
-        <option value="cripto">DÓLAR CRIPTO</option>
-        <option value="tarjeta">DÓLAR TARJETA</option>
-      </select>
     <!--  <label for="fecha">Fecha:</label>
       <input type="date" id="fecha" name="fecha" class="historico-fecha" /> -->
-      
+      <form id="seleccion-historico" class="historico-form">
+        <label for="moneda">Moneda:</label>
+        <select id="moneda" name="moneda" class="historico-select">
+            <option value="oficial">DÓLAR OFICIAL</option>
+            <option value="blue">DÓLAR BLUE</option>
+            <option value="bolsa">DÓLAR BOLSA</option>
+            <option value="ccl">DÓLAR CCL</option>
+            <option value="mayorista">DÓLAR MAYORISTA</option>
+            <option value="cripto">DÓLAR CRIPTO</option>
+            <option value="tarjeta">DÓLAR TARJETA</option>
+        </select>
 
-      <button type="submit" class="historico-boton">Mostrar Histórico</button>
+        <label for="fecha_inicio">Fecha de inicio:</label>
+        <input type="date" id="fecha_inicio" name="fecha_inicio" class="historico-fecha" required min="" max="" />
+
+        <label for="fecha_fin">Fecha de fin:</label>
+        <input type="date" id="fecha_fin" name="fecha_fin" class="historico-fecha" required min="" max="" />
+
+        <button type="submit" class="historico-boton">Mostrar Histórico</button>
     </form>
 
     <div id="resultado-historico" class="historico-resultado">
       <h3 class="historico-subtitulo">Tabla de Evolución</h3>
       <table class="historico-tabla">
-        {% if error %}
-        <p style="color: red;">{{ error }}</p>
-        {% elif data %}
         <thead>
-          <tr>
-            <th>Casa</th>
-            <th>Compra</th>
-            <th>Venta</th>
-            <th>Fecha</th>
-          </tr>
+            <tr>
+                <th>Casa</th>
+                <th>Compra</th>
+                <th>Venta</th>
+                <th>Fecha</th>
+            </tr>
         </thead>
         <tbody id="tabla-cotizaciones">
-          {% for item in data %}
-          <tr>
-            <td>{{ item.casa }}</td>
-            <td>{{ item.compra }}</td>
-            <td>{{ item.venta }}</td>
-            <td>{{ item.fecha }}</td>
-          </tr>
-          {% endfor %}
+            <!--La tabla se llenará con datos dinámicamente-->
         </tbody>
-
-        {% else %}
-        <p>No hay datos históricos disponibles para esta moneda y fecha.</p>
-        {% endif %}
-    </div>
-
     </table>
     </div>
-    
+  
 </section>
 <footer>
   <h3>Integrantes:</h3>
@@ -88,5 +76,6 @@
   <h4>Carrera: Tecnicatura en Programación / Materia: Programación II</h4>
   </footer>
   <script src="/static/JS/pag.js"></script>
+  <script src="/static/JS/historico.js"></script>
 </body>
 </html>

@@ -40,6 +40,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     } else {
                         manejarModal("Operación realizada con éxito."); 
                     }
+                    formulario.reset();
                 })
                 .catch(error => {
                     console.error('Error:', error);
