@@ -1,13 +1,37 @@
-{% extends "base.html" %}
-
-{% block content %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/static/CSS/estilos.css" />
+    <link rel="stylesheet" href="/static/CSS/email.css" />
+    <title>Rosario Divisas</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/imagenes/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/imagenes/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/imagenes/favicon-16x16.png">
+</head>
+<body>
+    <header class="header">
+    <div class="logo">
+        <img src="/static/imagenes/logo.png" alt="Logo de la Compañia" />
+    </div>
+    <h1 class="nombre-empresa">Rosario Divisas</h1>
+    <nav>
+        <ul class="nav-links">
+        <li><a href="/">Inicio</a></li>
+        <li><a href="/historico">Histórico</a></li>
+        <li><a href="/web/email">Contacto</a></li>
+        </ul>
+    </nav>
+    </header>
 <div class="container-form">
 <form id="formContacto" action="/procesar" method="POST">
+        <input type="hidden" name="tipo" value="contacto">
         <label  for="nombre">Nombre:</label>
         <input type="text" id="nombre" name="nombre" required>
         
-        <label  for="email">Email:</label>
-        <input type="email" id="email" name="email" required>
+        <label  for="correo">Email:</label>
+        <input type="email" id="correo" name="correo" placeholder="Tu correo electrónico" required>
         
         <label  for="mensaje">Mensaje:</label>
         <textarea id="mensaje" name="mensaje" required></textarea><br>
@@ -17,14 +41,21 @@
         </div>
 </form>
 </div>
+            <!-- Modal -->
+            <div id="modal" class="modal">
+                <div class="modal-content">
+                    <span id="modal-close" class="close">&times;</span>
+                    <p id="modal-message"></p>
+                </div>
+            </div>
 
-{% with messages = get_flashed_messages() %}
-{% if messages %}
-    <script>
-        // Mostrar alerta si hay mensajes flash
-        alert("{{ messages[0] }}");
-    </script>
-{% endif %}
-{% endwith %}
-
-{% endblock %}
+<footer>
+    <h3>Integrantes:</h3>
+    <h4>
+        Delbono Caetano, Plano Facundo, Kannemann Elias.
+    </h4>
+    <h4>Carrera: Tecnicatura en Programación / Materia: Programación II</h4>
+    </footer>
+    <script src="/static/JS/email.js"></script>
+</body>
+</html>

@@ -1,7 +1,7 @@
 from flask import Flask, jsonify, render_template , request, redirect, url_for, json
 from clases import  Tipo 
 from clases import  Cotizacion 
-from email.message import EmailMessage
+from datetime import datetime
 import requests
 from flask_cors import CORS
 
@@ -25,6 +25,8 @@ def cotizaciones():
         response = requests.get("https://dolarapi.com/v1/cotizaciones")
         if response.status_code == 200:
             datos = response.json()
+            # Omitimos la primera cotización
+            datos = datos[1:]  # Desde la segunda en adelante
             
             for moneda in datos:
                 cotizacion = Cotizacion(moneda["compra"], moneda["venta"], moneda["fechaActualizacion"])
@@ -89,38 +91,45 @@ def obtener_historico():
 def generar_cuerpo_mail():
     """Genera el contenido del cuerpo del correo con cotizaciones del dólar y otras monedas."""
     try:
-        # Realizamos las dos solicitudes a la API
+        #realizamos las dos solicitudes a la API
         response_cotizaciones = requests.get("https://dolarapi.com/v1/cotizaciones")
         response_dolares = requests.get("https://dolarapi.com/v1/dolares")
 
-        # Comprobamos el estado de las respuestas
+        #comprobamos el estado de las respuestas
         if response_cotizaciones.status_code == 200 and response_dolares.status_code == 200:
             cotizaciones = response_cotizaciones.json()
             dolares = response_dolares.json()
+            
+            cotizaciones = cotizaciones[1:]  
+        
 
-            # Generamos el contenido del correo
+            #Generamos el contenido del correo
             email_body = "COTIZACIONES GENERALES\n\n"
             for moneda in cotizaciones:
+                fecha_iso = moneda['fechaActualizacion']
+                fecha_obj = datetime.fromisoformat(fecha_iso.replace("Z", "")) 
+                fecha_formateada = fecha_obj.strftime("%d/%m/%Y %H:%M:%S ")  
                 email_body += (
                     f"Nombre: {moneda['nombre']}\n"
                     f"Moneda: {moneda['moneda']}\n"
                     f"Compra: {moneda['compra']}\n"
                     f"Venta: {moneda['venta']}\n"
-                    f"Casa: {moneda['casa']}\n"
-                    f"Fecha de Actualización: {moneda['fechaActualizacion']}\n"
-                    + "-" * 30 + "\n"
+                    f"Fecha de Actualización: {fecha_formateada}\n"
+                    + "-" * 50 + "\n"
                 )
 
             email_body += "\nCOTIZACIONES DEL DÓLAR\n\n"
             for moneda in dolares:
+                fecha_iso = moneda['fechaActualizacion']
+                fecha_obj = datetime.fromisoformat(fecha_iso.replace("Z", "")) 
+                fecha_formateada = fecha_obj.strftime("%d/%m/%Y %H:%M:%S")  
                 email_body += (
                     f"Nombre: {moneda['nombre']}\n"
                     f"Moneda: {moneda['moneda']}\n"
                     f"Compra: {moneda['compra']}\n"
                     f"Venta: {moneda['venta']}\n"
-                    f"Casa: {moneda['casa']}\n"
-                    f"Fecha de Actualización: {moneda['fechaActualizacion']}\n"
-                    + "-" * 30 + "\n"
+                    f"Fecha de Actualización: {fecha_formateada}\n"
+                    + "-" * 50 + "\n"
                 )
 
             return email_body
@@ -132,29 +141,39 @@ def generar_cuerpo_mail():
 
 @app.route('/procesar', methods=['POST'])
 def procesar():
+    # Obtener los datos del formulario
     nombre = request.form.get('nombre')
     correo = request.form.get('correo')
+    mensaje = request.form.get('mensaje')
+    tipo = request.form.get('tipo')  #tipo de formulario: 'contacto' o 'cotizacion'
 
     if nombre and correo:
-        print(f"Nombre: {nombre}")
-        print(f"Correo: {correo}")
-
-        # Generar el contenido del correo
-        mail = generar_cuerpo_mail()
-
-        # Estructura de datos para la API de envío de correos
-        data = {
-            'service_id': 'RosarioDivisas',
-            'template_id': 'CotizacionMonedas',
-            'user_id': 'J3P1UbAo9vpiYCfGt',
-            'accessToken': 'YrL1rQfoDbiTvFt1bXW_K',
-            'template_params': {
-                'to_email': correo,
-                'from_name': 'RosarioDivisas',
-                'user_name': nombre,
-                'message': mail
+        if tipo == 'contacto':  
+            mail = mensaje 
+            data = {
+                'service_id': 'RosarioDivisas',
+                'template_id': 'Contacto',
+                'user_id': 'J3P1UbAo9vpiYCfGt',
+                'accessToken': 'YrL1rQfoDbiTvFt1bXW_K',
+                'template_params': {
+                    'user_name': nombre,
+                    'message': mail,
+                }
             }
-        }
+        else: 
+            mail = generar_cuerpo_mail() 
+            data = {
+                'service_id': 'RosarioDivisas',
+                'template_id': 'CotizacionMonedas',
+                'user_id': 'J3P1UbAo9vpiYCfGt',
+                'accessToken': 'YrL1rQfoDbiTvFt1bXW_K',
+                'template_params': {
+                    'to_email': correo,
+                    'from_name': 'RosarioDivisas',
+                    'user_name': nombre,
+                    'message': mail
+            }
+            }
         headers = {
             'Content-Type': 'application/json',
             'User-Agent': 'Mozilla/5.0',
@@ -167,15 +186,12 @@ def procesar():
                 headers=headers
             )
             response.raise_for_status()
-            print('La cotización fue enviada correctamente!')
+            return jsonify({"message": "Correo enviado correctamente"}), 200
         except requests.exceptions.RequestException as error:
             print(f'Oops... {error}')
-            if error.response is not None:
-                print(error.response.text)
-
-        return f'Mensaje enviado correctamente a {correo}', 200
+            return jsonify({"error": "Error al enviar el correo"}), 500
     else:
-        return jsonify({'error': "Amigue, completá bien los datos"}), 405
+        return jsonify({'error': "Por favor, completa todos los datos"}), 400
 
 
 if __name__ == '__main__':

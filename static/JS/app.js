@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const boxTarjetas = document.querySelector('.cotizaciones .container');
                 boxTarjetas.appendChild(newMoneda);
             } else {
-                console.warn("Datos incompletos en moneda:", moneda); // Imprime un mensaje de advertencia si falta alguna propiedad
+                console.warn("Datos incompletos en moneda:", moneda); 
             }
         });
     })
@@ -55,13 +55,16 @@ document.addEventListener('DOMContentLoaded', () => {
         console.error("Error al obtener las cotizaciones:", error);
     });
 
-    // Gestión de clases "active" en el menú de navegación
-    const currentPage = window.location.pathname.split("/").pop();
 
-    // Obtiene todos los enlaces y agrega la clase "active" al que corresponde
+// Obtén la página actual (último segmento del path)
+    // Obtén la URL actual
+    const currentUrl = window.location.href;
+
     const links = document.querySelectorAll(".nav-links a");
+
+    // Itera sobre los enlaces y compara su href con la URL actual
     links.forEach(link => {
-        if (link.getAttribute("href") === currentPage) {
+        if (currentUrl.includes(link.href)) {
             link.classList.add("active");
         }
     });
