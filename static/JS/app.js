@@ -27,8 +27,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 newMoneda.innerHTML = `
                 <div class="card-header"> 
-                    <p class="nombre_casa">${moneda.tipo.moneda}</p>
                     <p class="nombre_casa">${moneda.tipo.nombre}</p>
+                    <p class="nombre_casa"  style="color:#0c0e8d">${moneda.tipo.moneda}</p>
                 </div>
                 <div class="card-body">
                     <div class="precio">
@@ -53,19 +53,5 @@ document.addEventListener('DOMContentLoaded', () => {
     })
     .catch(error => {
         console.error("Error al obtener las cotizaciones:", error);
-    });
-
-
-// Obtén la página actual (último segmento del path)
-    // Obtén la URL actual
-    const currentUrl = window.location.href;
-
-    const links = document.querySelectorAll(".nav-links a");
-
-    // Itera sobre los enlaces y compara su href con la URL actual
-    links.forEach(link => {
-        if (currentUrl.includes(link.href)) {
-            link.classList.add("active");
-        }
     });
 });

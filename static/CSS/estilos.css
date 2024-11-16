@@ -16,14 +16,14 @@ header{
   justify-content: space-between;
   align-items: center;
   height: 90px;
-  padding: 5px 15px;
+  padding: 10px 50px; 
   max-width: 100%;
   margin: auto;
 }
 h1{
-  color: #fff;
+  color: #0c0e8d;
   font-size: 30px;
-  font-family:serif;
+  font-family: 'Georgia', serif;
 }
 
 
@@ -82,12 +82,25 @@ footer {
   color: #0c0e8d;
 }
 
-.cotizaciones{
+.titulo-cotizaciones {
+  font-size: 28px;
+  text-align: center;
+  margin: 20px;
+  text-transform: uppercase;
+  font-weight: bold;
+  color: #fff;
+  background-color: #0c0e8d;
+  padding: 10px 20px;
+  border-radius: 10px;
+}
+
+.cotizaciones {
   display: flex;
+  flex-direction: column;
   max-width: 100%;
-  margin: 0;
-  align-items: center;
-  justify-content: center;
+  margin: 0 auto; 
+  align-items: center; 
+  justify-content: flex-start; 
 }
 
 .container{
@@ -112,9 +125,9 @@ footer {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 150px;
+  height: 200px;
   max-width: 600px;
-  width: 275px;
+  width: 300px;
   transition: all 0.3s;
 }
 
