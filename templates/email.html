@@ -26,15 +26,16 @@
     </header>
 <div class="container-form">
 <form id="formContacto" action="/procesar" method="POST">
+        <h2 class="titulo-formulario">Formulario de Contacto</h2>
         <input type="hidden" name="tipo" value="contacto">
         <label  for="nombre">Nombre:</label>
-        <input type="text" id="nombre" name="nombre" required>
+        <input type="text" id="nombre" name="nombre" placeholder="Tu nombre" required>
         
         <label  for="correo">Email:</label>
         <input type="email" id="correo" name="correo" placeholder="Tu correo electrónico" required>
         
         <label  for="mensaje">Mensaje:</label>
-        <textarea id="mensaje" name="mensaje" required></textarea><br>
+        <textarea id="mensaje" name="mensaje" placeholder="Informacion que desea comunicarnos" required></textarea><br>
         
         <div class="button-container">
             <button id="boton" type="submit">Enviar</button>

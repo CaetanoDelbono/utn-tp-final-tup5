@@ -184,6 +184,7 @@ def procesar():
                 'user_id': 'J3P1UbAo9vpiYCfGt',
                 'accessToken': 'YrL1rQfoDbiTvFt1bXW_K',
                 'template_params': {
+                    "to_mail" : correo,
                     'user_name': nombre,
                     'message': mail,
                 }
@@ -204,7 +205,11 @@ def procesar():
             }
         headers = {
             'Content-Type': 'application/json',
-            'User-Agent': 'Mozilla/5.0',
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36',
+            'Accept': 'application/json, text/javascript, */*; q=0.01',
+            'Accept-Language': 'en-US,en;q=0.9',
+            'Origin': 'http://127.0.0.1:5000/',  
+            'Referer': 'http://127.0.0.1:5000/'
         }
 
         try:

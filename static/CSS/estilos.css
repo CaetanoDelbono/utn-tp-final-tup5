@@ -428,7 +428,7 @@ nav ul li a.active {
 }
 
 .modal-content {
-  background-color: white;
+  background-color: rgb(77, 182, 29);
   margin: 5% auto;
   padding: 20px;
   border: 1px solid #888;
@@ -450,4 +450,12 @@ nav ul li a.active {
   color: black;
   text-decoration: none;
   cursor: pointer;
+}
+
+.titulo-formulario {
+  font-size: 1.5rem;
+  color: #333333;
+  margin-bottom: 15px;
+  text-align: center;
+  text-decoration: underline;
 }
